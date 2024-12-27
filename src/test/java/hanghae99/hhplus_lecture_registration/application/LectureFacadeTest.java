@@ -73,4 +73,25 @@ class LectureFacadeTest {
 
     }
 
+    @DisplayName("강의 신청 테스트 - 같은 사용자가 동일한 강의에 신청할 경우")
+    @Test
+    @Transactional
+    public void registerLectureTest_WhenDuplicatedRegister() {
+
+        //given
+
+        //when
+        for (int i = 0; i < 5; i++) {
+            try {
+                lectureFacade.registerLecture(lecture.getId(), user.getId());
+            } catch (Exception e) {
+                assertEquals("이미 신청완료된 강의입니다.", e.getMessage());
+            }
+        }
+
+        //then
+        assertEquals(1, lecture.getCurrentAttendeesCount());
+
+    }
+
 }
